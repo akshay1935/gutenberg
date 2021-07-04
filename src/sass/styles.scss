@@ -1,0 +1,33 @@
+@import './variables';
+
+@font-face{
+  font-family: "Montserrat";
+  src: url('/assets/fonts/Montserrat/Montserrat-Regular.ttf');
+  font-weight: 400;
+}
+
+@font-face{
+  font-family: "Montserrat";
+  src:url('/assets/fonts/Montserrat/Montserrat-SemiBold.ttf');
+  font-weight: 600;
+}
+
+body{
+  background-color: $--color-secondary !important;
+  font-family: $primary-font;
+  font-size: 16px;
+}
+
+h1{
+  font-family: $primary-font;
+  font-weight: 600 !important;
+  font-size: 48px !important;
+  color:$--color-primary;
+}
+
+h2{
+  font-family: $primary-font;
+  font-weight: 600 !important;
+  font-size: 30px !important;
+  color:$--color-primary;
+}

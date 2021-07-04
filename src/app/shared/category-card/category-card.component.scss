@@ -1,0 +1,20 @@
+@import '_variables';
+
+.card-body{
+  height: 50px;
+  display: flex;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px 0 rgb(211 209 238 / 50%);
+  font-family: $primary-font;
+  font-weight: 600;
+  cursor: pointer;
+  .card-img-start, .card-img-end{
+    flex:1;
+  }
+  .title{
+    flex: 12;
+    display: flex;
+    align-items: center;
+    text-transform: uppercase;
+  }
+}

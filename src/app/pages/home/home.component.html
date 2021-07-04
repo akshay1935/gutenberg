@@ -1,0 +1,20 @@
+
+<div class="container-fluid">
+  <div class="custom-header">
+    <div class="container">
+      <div class="title-sec">
+        <h1>Gutenberg Project</h1>
+        <label>A social cataloging website that allows you to freely search its database of books, annotations,and reviews.</label>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="content-sec">
+      <div class="row">
+        <div class="col-md-6 custom-space" *ngFor="let category of Categories" (click)="onCategoryClick(category)">
+          <app-category-card img="{{ 'assets/images/'+category+'.svg' }}" [name]="category"></app-category-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
