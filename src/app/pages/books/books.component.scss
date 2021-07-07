@@ -94,9 +94,10 @@
   border-radius: 8px;
   box-shadow: 0 2px 5px 0 rgb(211 209 238 / 50%);
   height: 162px;
-
+  cursor: pointer;
   .card-body{
     padding:0px;
+    max-height: 162px;
   }
 }
 
@@ -105,6 +106,7 @@
 .book-cover{
   width:100%;
   border-radius: 8px;
+  height: 100%;
 }
 
 .btn-back{

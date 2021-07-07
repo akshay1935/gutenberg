@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpService } from 'src/app/services/http.service';
 import { debounceTime, filter, finalize, map, startWith, switchMap, tap } from 'rxjs/operators';
-
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-books',
   templateUrl: './books.component.html',
@@ -24,7 +24,11 @@ export class BooksComponent implements OnInit {
   start: number = 0;
   direction = "";
 
-  constructor(private route: ActivatedRoute, private httpService:HttpService, private router: Router) {
+  constructor(
+    private route: ActivatedRoute,
+    private httpService:HttpService,
+    private toastr: ToastrService,
+    private router: Router) {
     this.route.queryParams
       .subscribe(params => {
         this.category= params.category
@@ -42,30 +46,41 @@ export class BooksComponent implements OnInit {
         this.books = [];
         this.tmp = [];
       }),
-      switchMap(value => this.httpService.get_by_observable('books?search='+value)
+      switchMap(value => this.httpService.get_by_observable('books?search='+value+'&mime_type=image')
         .pipe(
-          finalize(() => {
-
-          })
+          finalize(() => {})
         )
       )
     ).subscribe(data => {
       this.books = data.results;
-      this.books = this.books.map((book) => {
-        book.img_url = this.book_covers[Math.floor(Math.random() * this.book_covers.length)];
-        return book;
-      })
       this.addItems(this.start, this.sum);
     });
   }
 
+  onBookClick(book){
+    if(book.formats !== undefined){
+      let isFound = false;
+      let link = '';
+      Object.keys(book.formats).forEach((key) => {
+        if(key.includes('text/html') || key.includes('text/plain') || key.includes('application/pdf')){
+          isFound = true;
+          if(link == ''){
+            link = book.formats[key];
+          }
+        }
+      });
+
+      if(isFound){
+        window.open(link, "_blank");
+      }else{
+        this.toastr.error("No viewable version available", 'Error');
+      }
+    }
+  }
+
   getBooks(){
-    this.httpService.get_by_observable('books?topic='+this.category).subscribe((result) => {
+    this.httpService.get_by_observable('books?topic='+this.category+'&mime_type=image').subscribe((result) => {
       this.books = result.results;
-      this.books = this.books.map((book) => {
-        book.img_url = this.book_covers[Math.floor(Math.random() * this.book_covers.length)];
-        return book;
-      })
       this.addItems(this.start, this.sum);
     }, (error)=>{
       console.log(error)
@@ -76,8 +91,6 @@ export class BooksComponent implements OnInit {
   addItems(index, sum) {
     for (let i = index; i < sum; ++i) {
       this.tmp.push(this.books[i]);
-      console.log(this.tmp);
-
     }
   }
 
